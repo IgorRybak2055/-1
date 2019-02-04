@@ -22,14 +22,18 @@ def encode(keyword):
         ind_str = ''
 
         for j in range(0, len(keyword)):
-            ind_str += tmp_str[list_of_ind.index(j + 1)]
+            try:
+                ind_str += tmp_str[list_of_ind.index(j+1)]
+            except IndexError:
+                if len(tmp_str) != len(keyword):
+                    tmp_str+="*"*(len(keyword)-len(tmp_str))
 
         crypto_str += ind_str
 
     return crypto_str
 
-def decode(keyword,text):
-    # keyword = input("Input keyword: ")
+def decode(text):
+    keyword = input("Input keyword: ")
     list_of_ind = [" " for _ in range(len(keyword))]
     alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
     val = 1
@@ -50,12 +54,14 @@ def decode(keyword,text):
 
         decode_str+=ind_str
 
+    decode_str = decode_str.replace('*', '')
     return decode_str
+
 
 if __name__ == '__main__':
     keyword = input("Input keyword: ")
     msg = encode(keyword)
     print("Encrypt msg - ", msg)
-    print("Decrypt msg - ", decode(keyword,msg))
+    print("Decrypt msg - ", decode(msg))
 
 
